@@ -3,481 +3,796 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karuna Tamang | Portfolio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Karuna Tamang — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --accent: #c8a97e;
+    --accent2: #e8d5b7;
+    --text: #f0ece4;
+    --muted: #7a7570;
+    --border: #2a2520;
+  }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html{
-scroll-behavior:smooth;
-}
+  html { scroll-behavior: smooth; }
 
-body{
-background:linear-gradient(135deg,#0f172a,#1e293b);
-color:white;
-}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-header{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(15,23,42,0.95);
-backdrop-filter:blur(10px);
-z-index:1000;
-}
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 8%;
-}
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(0px);
+  }
 
-.logo{
-font-size:30px;
-font-weight:700;
-color:#38bdf8;
-}
+  nav.scrolled {
+    border-bottom-color: var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(13,13,13,0.8);
+  }
 
-nav ul{
-display:flex;
-list-style:none;
-}
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
 
-nav ul li{
-margin-left:25px;
-}
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
 
-nav ul li a{
-color:white;
-text-decoration:none;
-transition:0.3s;
-}
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
 
-nav ul li a:hover{
-color:#38bdf8;
-}
+  .nav-links a:hover { color: var(--text); }
 
-section{
-padding:100px 10%;
-}
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
 
-.hero{
-min-height:100vh;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,169,126,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-.hero-text{
-max-width:600px;
-}
+  .hero-text { animation: fadeUp 1s ease forwards; opacity: 0; }
 
-.hero-text span{
-color:#38bdf8;
-font-size:20px;
-}
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
-.hero-text h1{
-font-size:65px;
-margin:15px 0;
-}
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
 
-.hero-text h3{
-color:#cbd5e1;
-margin-bottom:20px;
-}
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
 
-.hero-text p{
-line-height:1.8;
-color:#cbd5e1;
-}
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
 
-.btn{
-display:inline-block;
-padding:12px 28px;
-margin-top:20px;
-margin-right:10px;
-background:#38bdf8;
-color:white;
-text-decoration:none;
-border-radius:30px;
-transition:0.3s;
-}
+  .hero-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 380px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
 
-.btn:hover{
-transform:translateY(-5px);
-}
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-.btn-secondary{
-background:#334155;
-}
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-.profile{
-width:350px;
-height:350px;
-border-radius:50%;
-border:5px solid #38bdf8;
-object-fit:cover;
-box-shadow:0 0 25px rgba(56,189,248,0.5);
-}
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+  }
 
-.title{
-text-align:center;
-margin-bottom:50px;
-}
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+  }
 
-.title h2{
-font-size:42px;
-color:#38bdf8;
-}
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
 
-.about p{
-text-align:center;
-max-width:900px;
-margin:auto;
-line-height:1.9;
-color:#cbd5e1;
-}
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 
-.education-box,
-.cv-box{
-background:#1e293b;
-padding:30px;
-border-radius:15px;
-text-align:center;
-}
+  /* Hero image side */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.2s 0.3s ease forwards;
+    opacity: 0;
+  }
 
-.skills,
-.projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-}
+  .avatar-frame {
+    position: relative;
+    width: 340px;
+    height: 420px;
+  }
 
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:15px;
-transition:0.3s;
-}
+  .avatar-bg {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    transform: rotate(3deg);
+    background: var(--surface);
+  }
 
-.card:hover{
-transform:translateY(-10px);
-}
+  .avatar-inner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1e1a16 0%, #2a231a 50%, #1a1510 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-.card h3{
-color:#38bdf8;
-margin-bottom:15px;
-}
+  .avatar-initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 7rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--accent);
+    opacity: 0.3;
+    user-select: none;
+  }
 
-.contact{
-text-align:center;
-}
+  .avatar-tag {
+    position: absolute;
+    bottom: -16px;
+    right: -16px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
 
-.contact p{
-margin:15px 0;
-color:#cbd5e1;
-}
+  /* STATS */
+  .stats {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 3rem 4rem;
+  }
 
-.social-links{
-margin-top:20px;
-}
+  .stat-item {
+    text-align: center;
+    padding: 1rem;
+    border-right: 1px solid var(--border);
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
 
-.social-links a{
-color:white;
-text-decoration:none;
-margin:0 15px;
-}
+  .stat-item:last-child { border-right: none; }
 
-.social-links a:hover{
-color:#38bdf8;
-}
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
 
-footer{
-background:#020617;
-text-align:center;
-padding:20px;
-}
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
 
-@media(max-width:768px){
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
 
-.hero{
-justify-content:center;
-text-align:center;
-}
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
 
-.hero-text h1{
-font-size:45px;
-}
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--accent);
+    opacity: 0.6;
+  }
 
-.profile{
-width:250px;
-height:250px;
-margin-top:40px;
-}
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
 
-nav ul{
-display:none;
-}
-}
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
 
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 400; }
+
+  .skills-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .skill-item:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: rgba(200,169,126,0.04);
+  }
+
+  .skill-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* WORK */
+  #work { background: var(--surface); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+  }
+
+  .project-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+
+  .project-card:hover::before { height: 100%; }
+  .project-card:hover { background: var(--surface); }
+
+  .project-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .project-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .project-card p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-link {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.3s;
+  }
+
+  .project-link:hover { gap: 0.9rem; }
+
+  /* EXPERIENCE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 1px solid var(--border);
+    max-width: 700px;
+  }
+
+  .timeline-item {
+    margin-bottom: 3rem;
+    position: relative;
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0.35rem;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .timeline-period {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+  }
+
+  .timeline-company {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .timeline-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .contact-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-style: italic;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .contact-email {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    font-weight: 300;
+    transition: color 0.3s;
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .contact-email:hover { color: var(--accent); }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    list-style: none;
+  }
+
+  .social-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-links a:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .fade-in { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.4s; }
+  .delay-3 { animation-delay: 0.6s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .hero { grid-template-columns: 1fr; padding: 8rem 2rem 4rem; text-align: center; }
+    .hero-visual { display: none; }
+    .hero-label { justify-content: center; }
+    .hero-desc { margin: 0 auto 2.5rem; }
+    .btn-group { justify-content: center; }
+    .stats { grid-template-columns: 1fr; padding: 2rem; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat-item:last-child { border-bottom: none; }
+    section { padding: 4rem 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
 </style>
 </head>
-
 <body>
 
-<header>
-<nav>
-
-<div class="logo">KT.</div>
-
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#education">Education</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#cv">CV</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-
+<nav id="navbar">
+  <a href="#" class="nav-logo">Karuna Tamang</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
-</header>
 
-<!-- HOME -->
-
-<section id="home">
-
-<div class="hero">
-
-<div class="hero-text">
-
-<span>👋 Welcome To My Portfolio</span>
-
-<h1>Karuna Tamang</h1>
-
-<h3>Computing Student | Web Developer | Research Enthusiast</h3>
-
-<p>
-Building Digital Experiences, One Line of Code at a Time.
-Passionate about software development, cybersecurity,
-database systems and modern web technologies.
-</p>
-
-<a href="#projects" class="btn">View Projects</a>
-
-<a href="Karuna_Tamang_CV.pdf" download class="btn btn-secondary">
-Download CV
-</a>
-
-<a href="#contact" class="btn btn-secondary">
-Contact Me
-</a>
-
-</div>
-
-<img src="profile.jpg" alt="Karuna Tamang" class="profile">
-
-</div>
-
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-label">Available for work</div>
+    <h1>Karuna<br><em>Tamang</em></h1>
+    <p class="hero-desc">Designer & developer crafting thoughtful digital experiences. I turn complex ideas into clean, purposeful interfaces.</p>
+    <div class="btn-group">
+      <a href="#work" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="avatar-frame">
+      <div class="avatar-bg"></div>
+      <div class="avatar-inner">
+        <span class="avatar-initials">KT</span>
+      </div>
+      <div class="avatar-tag">Kathmandu, Nepal</div>
+    </div>
+  </div>
 </section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item fade-in">
+    <span class="stat-number">4+</span>
+    <span class="stat-label">Years Experience</span>
+  </div>
+  <div class="stat-item fade-in delay-1">
+    <span class="stat-number">30+</span>
+    <span class="stat-label">Projects Completed</span>
+  </div>
+  <div class="stat-item fade-in delay-2">
+    <span class="stat-number">15+</span>
+    <span class="stat-label">Happy Clients</span>
+  </div>
+</div>
 
 <!-- ABOUT -->
-
 <section id="about">
-
-<div class="title">
-<h2>About Me</h2>
-</div>
-
-<div class="about">
-
-<p>
-Hello! I'm Karuna Tamang, a passionate Computing student with a strong
-interest in software development, web technologies, cybersecurity,
-and database systems. I enjoy creating innovative digital solutions
-and continuously improving my technical skills.
-</p>
-
-</div>
-
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>Hello! I'm <strong>Karuna Tamang</strong>, a passionate designer and developer based in Kathmandu, Nepal. I specialise in creating digital experiences that are both beautiful and functional.</p>
+      <p>My work sits at the intersection of <strong>design and technology</strong> — I care deeply about every pixel, every interaction, and every line of code. I believe great software should feel effortless to use.</p>
+      <p>When I'm not building things for the web, you'll find me exploring the mountains of Nepal, reading about design philosophy, or experimenting with new creative tools.</p>
+    </div>
+    <div>
+      <p style="font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:1.2rem;">Skills & Tools</p>
+      <div class="skills-list">
+        <div class="skill-item"><span class="skill-dot"></span> UI/UX Design</div>
+        <div class="skill-item"><span class="skill-dot"></span> React / Next.js</div>
+        <div class="skill-item"><span class="skill-dot"></span> Figma</div>
+        <div class="skill-item"><span class="skill-dot"></span> TypeScript</div>
+        <div class="skill-item"><span class="skill-dot"></span> Node.js</div>
+        <div class="skill-item"><span class="skill-dot"></span> CSS / Tailwind</div>
+        <div class="skill-item"><span class="skill-dot"></span> Branding</div>
+        <div class="skill-item"><span class="skill-dot"></span> Motion Design</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- EDUCATION -->
-
-<section id="education">
-
-<div class="title">
-<h2>Education</h2>
-</div>
-
-<div class="education-box">
-
-<h3>Bachelor's Degree in Computing</h3>
-
-<p>
-Faculty of Computing, Management and Technology<br>
-Nepal
-</p>
-
-</div>
-
+<!-- WORK -->
+<section id="work">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Selected Work</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-tag">Web Design · Development</span>
+      <h3>Himalayan Travel Co.</h3>
+      <p>A full website redesign for a trekking agency, featuring immersive photography, streamlined booking flows, and a custom CMS.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">UI/UX · Branding</span>
+      <h3>Nepali Craft Market</h3>
+      <p>End-to-end design and development of an e-commerce platform connecting artisans directly with global customers.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Mobile App Design</span>
+      <h3>Yatra — Transit App</h3>
+      <p>A public transit companion app for Kathmandu Valley — real-time routes, fare estimates, and an offline-first experience.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Branding · Print</span>
+      <h3>Kumari Coffee</h3>
+      <p>Complete visual identity for a specialty coffee roaster — logo, packaging, signage, and a minimal landing page.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Dashboard · Data Viz</span>
+      <h3>FinanceFlow Dashboard</h3>
+      <p>A financial analytics dashboard with complex data visualisations, role-based access, and a clean, intuitive interface.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Open Source</span>
+      <h3>Design System Kit</h3>
+      <p>An open-source React component library built for accessibility-first design, with full Figma token integration.</p>
+      <a href="#" class="project-link">View Project →</a>
+    </div>
+  </div>
 </section>
 
-<!-- SKILLS -->
-
-<section id="skills">
-
-<div class="title">
-<h2>Skills</h2>
-</div>
-
-<div class="skills">
-
-<div class="card">
-<h3>Programming</h3>
-<p>Java, Python, JavaScript, SQL</p>
-</div>
-
-<div class="card">
-<h3>Web Development</h3>
-<p>HTML, CSS, JavaScript, Bootstrap</p>
-</div>
-
-<div class="card">
-<h3>Database</h3>
-<p>MySQL, Database Design, Data Management</p>
-</div>
-
-<div class="card">
-<h3>Cybersecurity</h3>
-<p>Security Awareness, Digital Safety</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- PROJECTS -->
-
-<section id="projects">
-
-<div class="title">
-<h2>Projects</h2>
-</div>
-
-<div class="projects">
-
-<div class="card">
-<h3>Cybersecurity Awareness Research</h3>
-<p>
-Research on cybersecurity awareness among social media users.
-</p>
-</div>
-
-<div class="card">
-<h3>Student Management System</h3>
-<p>
-Database-driven application for managing student records.
-</p>
-</div>
-
-<div class="card">
-<h3>Portfolio Website</h3>
-<p>
-Responsive website built using HTML, CSS and JavaScript.
-</p>
-</div>
-
-<div class="card">
-<h3>E-Commerce System</h3>
-<p>
-Online shopping platform with modern UI and functionality.
-</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- CV SECTION -->
-
-<section id="cv">
-
-<div class="title">
-<h2>My Resume</h2>
-</div>
-
-<div class="cv-box">
-
-<p style="margin-bottom:20px;">
-Download my latest CV to learn more about my education,
-skills, projects and achievements.
-</p>
-
-<a href="Karuna_Tamang_CV.pdf" download class="btn">
-📄 Download CV
-</a>
-
-</div>
-
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-period">2023 — Present</div>
+      <h3>Senior UI/UX Designer</h3>
+      <div class="timeline-company">Leapfrog Technology, Kathmandu</div>
+      <p class="timeline-desc">Leading product design for enterprise clients, establishing design systems, and mentoring a team of junior designers.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-period">2021 — 2023</div>
+      <h3>Frontend Developer & Designer</h3>
+      <div class="timeline-company">CloudFactory, Kathmandu</div>
+      <p class="timeline-desc">Built and shipped responsive web applications, collaborated closely with product teams, and improved core platform UX.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-period">2020 — 2021</div>
+      <h3>Freelance Designer</h3>
+      <div class="timeline-company">Self-employed</div>
+      <p class="timeline-desc">Worked with startups and local businesses on branding, web design, and digital marketing collateral.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-period">2016 — 2020</div>
+      <h3>BSc. Computer Science</h3>
+      <div class="timeline-company">Tribhuvan University, Kathmandu</div>
+      <p class="timeline-desc">Graduated with honours. Focused on human-computer interaction and software engineering principles.</p>
+    </div>
+  </div>
 </section>
 
 <!-- CONTACT -->
-
 <section id="contact">
-
-<div class="title">
-<h2>Contact Me</h2>
-</div>
-
-<div class="contact">
-
-<p>📧 karunalama245@gmail.com</p>
-
-<p>📱 +977-9813523271</p>
-
-<p>📍 Kathmandu, Nepal</p>
-
-<div class="social-links">
-
-<a href="#">GitHub</a>
-
-<a href="#">LinkedIn</a>
-
-<a href="#">Facebook</a>
-
-<a href="#">Instagram</a>
-
-</div>
-
-<br>
-
-<a href="mailto:karunatamang@email.com" class="btn">
-Send Message
-</a>
-
-</div>
-
+  <div class="section-header" style="justify-content:center; border:none;">
+    <span class="section-num">04</span>
+    <h2>Get in Touch</h2>
+  </div>
+  <p class="contact-intro">"Let's build something meaningful together."</p>
+  <a href="mailto:karuna.tamang@email.com" class="contact-email">karuna.tamang@email.com</a>
+  <a href="mailto:karuna.tamang@email.com" class="btn btn-primary" style="display:inline-block;">Send a Message</a>
+  <ul class="social-links">
+    <li><a href="#">LinkedIn</a></li>
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Dribbble</a></li>
+    <li><a href="#">Twitter / X</a></li>
+  </ul>
 </section>
 
 <footer>
-
-<p>
-© 2026 Karuna Tamang | Designed with ❤️ and Creativity
-</p>
-
+  <p>© 2026 Karuna Tamang. All rights reserved.</p>
+  <p>Designed & built with care · Kathmandu, Nepal 🇳🇵</p>
 </footer>
 
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in, .timeline-item, .stat-item').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
+  });
+
+  // Stagger timeline items
+  document.querySelectorAll('.timeline-item').forEach((el, i) => {
+    el.style.animationDelay = `${i * 0.15}s`;
+  });
+</script>
 </body>
 </html>
